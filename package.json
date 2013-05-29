@@ -1,0 +1,34 @@
+{
+  "name": "jquery-eventually",
+  "title": "jQuery Event Library ",
+  "description": "Extends the jquery event system to make before and after events automatic and simple",
+  "version": "1.0",
+  "homepage": "https://github.com/lienmeat/jquery-eventually",
+  "author": {
+    "name": "Eric Lien",
+    "email": "liener.meat@gmail.com",    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lienmeat/jquery-eventually.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lienmeat/jquery-eventually/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "scripts": {
+    "test": "qunit"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "event",
+    "events",
+    "pub/sub"
+  ]
+}

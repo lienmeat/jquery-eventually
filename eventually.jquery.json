@@ -1,0 +1,27 @@
+{
+	"name": "eventually",
+	"title": "jQuery Eventually",
+	"description": "A more powerful event system, with automatic creation of before and after events.",
+	"keywords": [
+		"event",
+		"events",
+		"sub/pub"
+	],
+	"version": "1.0",
+	"author": {
+		"name": "Eric Lien",
+		"email": "liener.meat@gmail.com",		
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://www.opensource.org/licenses/MIT"
+		}
+	],
+	"bugs": "https://github.com/lienmeat/jquery-eventually/issues",
+	"homepage": "https://github.com/lienmeat/jquery-eventually",	
+	"download": "https://github.com/lienmeat/jquery-eventually/archive/master.zip",
+	"dependencies": {
+		"jquery": ">=1.7.2"
+	}
+}
