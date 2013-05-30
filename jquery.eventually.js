@@ -1,11 +1,25 @@
 (function($) {
 	
-	function Eventually(methodOrOptions){
-		this.version = "1.0.3";
-		this.plugin_name = "jQuery.eventually";
+	function Eventually(jquery, config){
+		//version information
+		this.version = "1.0.4";
+		//name of $.fn.<plugin_name> (for own use, and also for $.fn.<plugin_name>)
+		this.plugin_name = "eventually";
+		//instance of jquery passed to $.fn.<plugin_name>
+		this.jquery = jquery;
+		//config passed to $.fn.<plugin_name>
+		this.config = config;
+
+		//register/alias methods $.fn.<plugin_name> is allowed to access (init is a given!)
+		this.public_methods = {
+			'on': this.on,
+			'before': this.before,
+			'after': this.after,
+			'trigger': this.trigger,
+		};		
 	}
 
-	Eventually.prototype.init = function(){ return true; }	
+	Eventually.prototype.init = function(){ return this.jquery; }	
 
 	/**
 	* Private function which actually registers events and a callback to eventually
@@ -15,11 +29,11 @@
 	* @param object data Data to bind pass to event
 	* @param function handler Function to handle the event
 	*/
-	Eventually.prototype.registerEventMY = function(orig_event, event, data, handler){		
+	Eventually.prototype.registerEvent = function(orig_event, event, data, handler){
 		var data = data || {};
 		var handler = handler || function(data){ return; };
 		//loop over selections, binding handler to event
-		this.each(
+		this.jquery.each(
 			function(){
 				//NOTE!: 'this' refers to a particular dom element in this scope!
 
@@ -45,11 +59,11 @@
 	/**
 	* Creates and runs jQuery events on selections
 	*/
-	Eventually.prototype.triggerEventMY = function(eventname, eventObj){
+	Eventually.prototype.triggerEvent = function(eventname, eventObj){
 		var e = jQuery.Event(eventname);
 		e.original_event = eventObj;
 		//running jquerys trigger method on selections!
-		this.trigger(e);
+		this.jquery.trigger(e);
 		return e;
 	}
 
@@ -59,8 +73,9 @@
 	* @param object data Data that will be available under event.data property in listener.
 	* @param function handler Function to call when event is triggered that will handle the event
 	*/
-	Eventually.prototype.beforeMY = function(event, data, handler) {			
-		this.registerEventMY(event, 'before_'+event, data, handler);
+	Eventually.prototype.before = function(event, data, handler) {			
+		this.registerEvent(event, 'before_'+event, data, handler);
+		return this.jquery;
 	}
 
 	/**
@@ -69,8 +84,9 @@
 	* @param object data Data that will be available under event.data property in listener.
 	* @param function handler Function to call when event is triggered that will handle the event
 	*/
-	Eventually.prototype.onMY = function(event, data, handler) {		
-		this.registerEventMY(event, 'on_'+event, data, handler);		
+	Eventually.prototype.on = function(event, data, handler) {		
+		this.registerEvent(event, 'on_'+event, data, handler);
+		return this.jquery;		
 	}
 
 	/**
@@ -79,8 +95,9 @@
 	* @param object data Data that will be available under event.data property in listener.
 	* @param function handler Function to call when event is triggered that will handle the event
 	*/	
-	Eventually.prototype.afterMY = function(event, data, handler) {
-		this.registerEventMY(event, 'after_'+event, data, handler);			
+	Eventually.prototype.after = function(event, data, handler) {
+		this.registerEvent(event, 'after_'+event, data, handler);
+		return this.jquery;
 	}
 
 	/**
@@ -91,16 +108,16 @@
 	* @return bool True if all before and on listeners fired and didn't stop propagation, false otherwise.
 	* This will cause events to stop propagating on actual dom events!
 	*/
-	Eventually.prototype.triggerMY = function(event, eventObj){
+	Eventually.prototype.trigger = function(event, eventObj){
 		var eventObj = eventObj || {};
 		//create befor<event> and run it
-		var bevent = this.triggerEventMY('before_'+event, eventObj);
+		var bevent = this.triggerEvent('before_'+event, eventObj);
 		//if before_<event> was not killed, create and run the on_<event>
 		if(!bevent.isDefaultPrevented() && !bevent.isPropagationStopped() && !bevent.isImmediatePropagationStopped()){				
-			var oevent = this.triggerEventMY('on_'+event, eventObj);
+			var oevent = this.triggerEvent('on_'+event, eventObj);
 			//if on_<event> was not killed, create and run the after_<event>	
 			if(!oevent.isDefaultPrevented() && !oevent.isPropagationStopped() && !oevent.isImmediatePropagationStopped()){			
-				var aevent = this.triggerEventMY('after_'+event, eventObj);
+				var aevent = this.triggerEvent('after_'+event, eventObj);
 				return true;
 			}
 		}
@@ -112,30 +129,21 @@
 			eventObj.preventDefault();
 		}
 		//return false.  This trigger did not complete cleanly.
-		return false;	
+		return false;
 	}
 
 	$.fn.eventually = function(methodOrOptions){		
-		//extend plugin function with new instance of Object
-		$.extend(this, new Eventually());
-		//possibly do some setup, here, if needed
+		//Instantiate plugin object with instance of jquery as argument, so it has it, and any config options it might need
+		var obj = new Eventually(this, methodOrOptions);
 
-		//alias and/or register callable methods
-		this.public = {
-			'on': this.onMY,
-			'before': this.beforeMY,
-			'after': this.afterMY,
-			'trigger': this.triggerMY,
-		};
-
-		//run public methods or init, or report error (never ever touch any of this!)
-		if( this.public[ methodOrOptions ] ){
-			return this.public[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		//run public methods or init, or report error (Please never touch any of this!  It shouldn't need to change!)
+		if( obj.public_methods[ methodOrOptions ] ){
+			return obj.public_methods[ methodOrOptions ].apply( obj, Array.prototype.slice.call( arguments, 1 ));
 		}else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ){
 			// Default to "init"
-			return this.init.apply( this, arguments );
+			return obj.init.apply( obj, arguments );
 		}else{
-			$.error( 'Method ' +  methodOrOptions + ' does not exist on '+this.plugin_name );
+			$.error( 'Method ' +  methodOrOptions + ' does not exist on '+obj.plugin_name );
 		}
 	}			
 }(jQuery));

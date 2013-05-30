@@ -1,9 +1,8 @@
 module("eventually");
 
 test("Constructor", function() {
-	var v1 = $(window).eventually();
-	var v2 = $(window).eventually();
-	equal( v1, v2, "Calling eventually() multiple times must return the same thing.");	
+	var v1 = $(document).eventually();
+	ok( v1.jquery, "Calling eventually() returns jquery instance.");	
 });
 
 test("Basic on() and trigger() test", function() {
