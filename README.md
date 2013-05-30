@@ -33,6 +33,7 @@ Here is example that shows some of it's power:
     
 Features/Notes
 --------------
+* `automatic event before and after states` - Any time you trigger, or listen for an event using eventually, you will automatically be able also listen/handle "before", "on", and "after" states! It's all free! (ex: running $("#buttonid").eventually("after", "click", {}, handlerFN); would AUTOMATICALLY allow you to also listen/handle "on" and "before" states with eventually if a click is ever triggered on that button, EVEN IF YOU DON'T USE EVENTUALLY TO ACTUALLY TRIGGER THE EVENT!  Yes, it is magic.)
 * `custom events` - You can trigger custom events, with custom event data too, and they work very similarly to regular DOM events.
 * `data exchange` - You can easily pass data along to the event from the listener definition.  It is then available under event.data (assuming the event is passed into the handler function as event).
 * `control over propagation` - returning false from an event handler will prevent the propagation to continue to the next group of handlers.  So if something listening on "before" returns false, or calls event.stopPropagation();, the listeners for "on" and "after" will never be called, and false will be returned by the "trigger" method.  "After" listeners CANNOT affect the return status of the trigger, however!
