@@ -2,7 +2,7 @@
   "name": "jquery-eventually",
   "title": "jQuery Event Library ",
   "description": "Extends the jquery event system to make before and after events automatic and simple",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/lienmeat/jquery-eventually",
   "author": {
     "name": "Eric Lien",
