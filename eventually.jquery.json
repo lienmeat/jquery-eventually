@@ -1,13 +1,13 @@
 {
     "name": "eventually",
     "title": "jQuery Eventually",
-    "description": "A more powerful event system, with automatic creation of before and after events.",
+    "description": "A more powerful event system, with automatic creation of before and after event states.",
     "keywords": [
         "event",
         "events",
         "pub-sub"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": {
         "name": "Eric Lien",
         "email": "liener.meat@gmail.com"

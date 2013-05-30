@@ -116,7 +116,7 @@
 	}
 
 	$.fn.eventually = function(methodOrOptions) {
-		this.version = '1.0.1';
+		this.version = '1.0.2';
 
 		if ( methods[methodOrOptions] ) {
 			return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
