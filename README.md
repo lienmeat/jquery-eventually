@@ -1,13 +1,13 @@
 jQuery.eventually
 =================
 
-Eventually is a powerful, easy to use event system utilizing jquery's events as it's base.  Triggering an event using eventually automatically gives you before, on, and after events to listen for and handle, that obey logical event propogation rules.
+Eventually is a powerful, easy to use event system utilizing jquery's events as its base.  Triggering an event using eventually automatically gives you before, on, and after events to listen for and handle, that obey logical event propogation rules.
 
 
 How to use
 ----------
 
-Here is example that shows some of it's power:
+Here is example that shows some of its power:
 
   
     $(document).ready(function(e){
