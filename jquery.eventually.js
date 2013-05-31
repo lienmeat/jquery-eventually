@@ -2,7 +2,7 @@
 	
 	function Eventually(jquery, config){
 		//version information
-		this.version = "1.0.4";
+		this.version = "1.0.5";
 		//name of $.fn.<plugin_name> (for own use, and also for $.fn.<plugin_name>)
 		this.plugin_name = "eventually";
 		//instance of jquery passed to $.fn.<plugin_name>
