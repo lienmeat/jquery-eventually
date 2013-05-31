@@ -44,9 +44,9 @@
 				//on this dom element
 				if(!this.eventually_listeners){
 					this.eventually_listeners = {};
-				}if(!this.eventually_listeners[event]){
+				}if(!this.eventually_listeners[orig_event]){
 					//no eventually listener for this event and element yet,
-					this.eventually_listeners[event] = true;
+					this.eventually_listeners[orig_event] = true;
 					//create one
 					$(this).on(orig_event, function(e){						
 						$(this).eventually('trigger', orig_event, e);
